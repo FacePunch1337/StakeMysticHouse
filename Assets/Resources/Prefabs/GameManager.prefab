@@ -1,0 +1,282 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7428396603209164845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4872902481885868636}
+  - component: {fileID: 77039603380433491}
+  - component: {fileID: 3671776629680729780}
+  - component: {fileID: 483773768690318594}
+  - component: {fileID: 7366509987904626032}
+  - component: {fileID: 4919274317775071306}
+  - component: {fileID: 712969534490075602}
+  - component: {fileID: 8970383536772935345}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4872902481885868636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.9996303, y: 2.8937762, z: -4.40522}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &77039603380433491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69c1243263db88b4395469dd662e0eff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  learnedRecipes: 01000000000000000000
+  recipeUIs:
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Healing Elixir
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Mushroom TIncture
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Eldritch Potion
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Twilight Witch's Potion
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Grave Water
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Witch's Curse
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Glimmering Fairy Potion
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Shining Stars
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Blazing Moonlight
+    ingredients: {fileID: 0}
+  - recipeObject: {fileID: 0}
+    recipeImage: {fileID: 0}
+    nameText: {fileID: 0}
+    mortarName: Mortar Sirens' Cry
+    ingredients: {fileID: 0}
+  closedColor: {r: 0.26, g: 0.25, b: 0.35, a: 1}
+  openedColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &3671776629680729780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79fcb5dd92a3d24fb5a3f7ad41c13a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookshelfPanel: {fileID: 0}
+  workbanchPanel: {fileID: 0}
+  cauldronPanel: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  orderPanel: {fileID: 0}
+  shopPanel: {fileID: 0}
+  lilithPanel: {fileID: 0}
+  rewardPanel: {fileID: 0}
+  levelText: {fileID: 0}
+  moneyText: {fileID: 0}
+  experienceBar: {fileID: 0}
+--- !u!114 &483773768690318594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0296a5569263cc44aa998d307baa45f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 0}
+  IngredientsSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  MortarsSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PotionsSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  activitySlot: {fileID: 0}
+  ingredientsGrid: {fileID: 0}
+  mortarsGrid: {fileID: 0}
+  potionsGrid: {fileID: 0}
+  ingredientsButton: {fileID: 0}
+  mortarsButton: {fileID: 0}
+  potionsButton: {fileID: 0}
+--- !u!114 &7366509987904626032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11545df984196a418557ef71185b1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tradeButton: {fileID: 0}
+  itemSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemNameText: {fileID: 0}
+--- !u!114 &4919274317775071306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af39294c7696d8844945704255f1f372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderInterval: 5
+  recipeNameText: {fileID: 0}
+  recipeImage: {fileID: 0}
+  itemSlot: {fileID: 0}
+--- !u!114 &712969534490075602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d44de253997d94d8aa4169a7af3e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emotes:
+  - {fileID: 21300000, guid: b8d6ee8cc450f524f8243f6c622f94ef, type: 3}
+  - {fileID: 21300000, guid: 116d422168a08cb46a01f12ebdfb1317, type: 3}
+  - {fileID: 21300000, guid: 9761dcfd971f8fc4bbb0849aeb8b5395, type: 3}
+  - {fileID: 21300000, guid: 257a7e93ed6c9f64aa2b8339b5e5a913, type: 3}
+  lilith: {fileID: 0}
+  lilithText: {fileID: 0}
+  okButton: {fileID: 0}
+  OnDialogCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8970383536772935345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7428396603209164845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89552d970881ada4d8b4ffd14258af5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardIntervalMinutes: 10
+  value: 500
+  countdownText: {fileID: 0}
+  valueText: {fileID: 0}
