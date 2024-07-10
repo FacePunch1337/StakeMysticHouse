@@ -1,0 +1,61 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# User-specific files
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ebugPrivate/
+*.swp
+*.swm
+*.tmp
+*.temp
+*.log
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.csproj
+*.unityproj
+*.sln
+*.sln.dotsettings
+*.tmproj
+*.ts*
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Build results
+*.apk
+*.aab
+*.unitypackage
+
+# Other excluded files
+*.booproj
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+*.sln.ide
+
+# JetBrains Rider
+*.DotSettings.user
+
+# Gradle files
+.gradle/
+
+# Bee files
+Library/Bee/
