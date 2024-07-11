@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     private Lilith lilith;
     public GameObject lilithPanel;
     public GameObject[] interactObjects; // Массив объектов, с которыми нужно взаимодействовать
+    [SerializeField] private TutorialInstruction[] _tutorialInstructions; // Массив объектов, с которыми нужно взаимодействовать
     private GameObject currentTarget;
 
     private int currentStep = 0;
@@ -36,7 +38,7 @@ public class TutorialManager : MonoBehaviour
         orderManager = GameManager.Instance.GetComponent<OrderManager>();
         lilith = GameManager.Instance.GetComponent<Lilith>();
     }
-
+    
     public void StartTutorial()
     {
         tutorialActive = true;
@@ -162,17 +164,23 @@ public class TutorialManager : MonoBehaviour
 
     public void Next()
     {
+        if (tutorialActive == false)
+            return;
 
+        // Убираем подсветку
+        RemoveHighlight(currentTarget);
 
-        if (tutorialActive)
-        {
-            // Убираем подсветку
-            RemoveHighlight(currentTarget);
+        // Переходим к следующему шагу
+        currentStep++;
+        NextStep();
+    }
 
-            // Переходим к следующему шагу
-            currentStep++;
-            NextStep();
-        }
+    public void TryMoveNext(int triggeredStep)
+    {
+        if (currentStep != triggeredStep)
+            return;
+            
+        Next();
     }
 
 
@@ -191,4 +199,11 @@ public class TutorialManager : MonoBehaviour
         tutorialActive = false;
     }
 
+
+    [System.Serializable]
+    private struct TutorialInstruction
+    {
+        public GameObject target;
+        public UnityEvent targetAction;
+    }
 }

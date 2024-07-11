@@ -7,14 +7,14 @@ using Newtonsoft.Json;
 
 public class OrderManager : MonoBehaviour
 {
-    public float orderInterval = 30f; // Интервал между заказами в секундах
+    public float orderInterval = 30f; // РРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ Р·Р°РєР°Р·Р°РјРё РІ СЃРµРєСѓРЅРґР°С…
     public Order currentOrder;
     private bool orderCompleted = true;
 
-    // Индекс предыдущего заказа
+    // РРЅРґРµРєСЃ РїСЂРµРґС‹РґСѓС‰РµРіРѕ Р·Р°РєР°Р·Р°
     private int previousRecipeIndex = -1;
 
-    // UI элементы для отображения текущего заказа
+    // UI СЌР»РµРјРµРЅС‚С‹ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ Р·Р°РєР°Р·Р°
     public TMP_Text recipeNameText;
     public Image recipeImage;
 
@@ -43,17 +43,17 @@ public class OrderManager : MonoBehaviour
 
             if (potion != null)
             {
-                Debug.Log($"Предметы в слотах: Potion of {potion.name}");
+                Debug.Log($"РџСЂРµРґРјРµС‚С‹ РІ СЃР»РѕС‚Р°С…: Potion of {potion.name}");
                 Debug.Log(currentOrder.orderName);
-                // Проверка, соответствует ли зелье в слоте текущему заказу
+                // РџСЂРѕРІРµСЂРєР°, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ Р»Рё Р·РµР»СЊРµ РІ СЃР»РѕС‚Рµ С‚РµРєСѓС‰РµРјСѓ Р·Р°РєР°Р·Сѓ
                 if (potion.itemName == currentOrder.orderName)
                 {
-                    Debug.Log("Заказ выполнен!");
+                    Debug.Log("Р—Р°РєР°Р· РІС‹РїРѕР»РЅРµРЅ!");
                     CompleteOrder(potion);
                 }
                 else
                 {
-                    Debug.Log("Зелье не соответствует заказу.");
+                    Debug.Log("Р—РµР»СЊРµ РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ Р·Р°РєР°Р·Сѓ.");
                 }
             }
         }
@@ -81,10 +81,10 @@ public class OrderManager : MonoBehaviour
                 int randomIndex;
                 int recipeIndex;
 
-                // Генерация нового заказа, учитывая текущий опыт и уровень
+                // Р“РµРЅРµСЂР°С†РёСЏ РЅРѕРІРѕРіРѕ Р·Р°РєР°Р·Р°, СѓС‡РёС‚С‹РІР°СЏ С‚РµРєСѓС‰РёР№ РѕРїС‹С‚ Рё СѓСЂРѕРІРµРЅСЊ
                 if (GameManager.Instance.GetCurrentExperience() == 0)
                 {
-                    recipeIndex = GameManager.Instance.GetLearnedRecipes().Count - 1; // Последний изученный рецепт
+                    recipeIndex = GameManager.Instance.GetLearnedRecipes().Count - 1; // РџРѕСЃР»РµРґРЅРёР№ РёР·СѓС‡РµРЅРЅС‹Р№ СЂРµС†РµРїС‚
                 }
                 else
                 {
@@ -100,12 +100,12 @@ public class OrderManager : MonoBehaviour
                 string recipeName = GameManager.Instance.GetRecipeName(recipeIndex);
                 Sprite recipeSprite = GameManager.Instance.GetRecipeSprite(recipeIndex);
                 currentOrder = new Order(recipeIndex, recipeName, recipeSprite);
-                orderCompleted = false; // Устанавливаем состояние заказа как невыполненный
+                orderCompleted = false; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РєР°Р·Р° РєР°Рє РЅРµРІС‹РїРѕР»РЅРµРЅРЅС‹Р№
                 Debug.Log("New order received for recipe " + recipeIndex + ": " + recipeName);
                 UpdateOrderUI(recipeName, recipeSprite);
                 if(GameManager.Instance.GetCurrentLevel() > 1 && !TutorialManager.Instance.GetTutorialActive())
                 {
-                    // Вызов метода Dialog у Лилит
+                    // Р’С‹Р·РѕРІ РјРµС‚РѕРґР° Dialog Сѓ Р›РёР»РёС‚
                     lilith.Dialog($"Can you make '{recipeName}'? Thanks!");
                 }
                 
