@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator ShowPanelWithDelay(PanelType panelType, float delay)
     {
-        HideAllPanels();
+        
         yield return new WaitForSeconds(delay);
 
         switch (panelType)

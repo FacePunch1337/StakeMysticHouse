@@ -64,6 +64,10 @@ public class Lilith : MonoBehaviour
             lilith.GetComponent<Image>().sprite = emotes[currentEmoteIndex];
             AudioManager.Instance.PlaySound(AudioManager.Sound.LilithVoice2);
         }
+        else if(TutorialManager.Instance.GetTutorialActive() && TutorialManager.Instance.GetCurrentStep() == 12 && currentSentenceIndex == sentences.Count)
+        {
+            TutorialManager.Instance.EndTutorial();
+        }
         else
         {
             // Close the dialog UI if all sentences are shown

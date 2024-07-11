@@ -21,12 +21,18 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private Slot itemSlot;
 
     private Lilith lilith;
-
+    private TutorialManager tutorialManager;
     private void Start()
     {
-        lilith = GameManager.Instance.GetComponent<Lilith>(); // Получаем ссылку на Lilith
+        lilith = GameManager.Instance.GetComponent<Lilith>();
+        tutorialManager = GameManager.Instance.GetComponent<TutorialManager>();
+
         StartCoroutine(OrderCoroutine());
-        //LoadCurrentOrder(); // Загружаем сохраненный заказ при старте игры
+
+        if (GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() == 0)
+        {
+            tutorialManager.StartTutorial();
+        }
     }
 
     public void CheckSlot()
@@ -97,9 +103,12 @@ public class OrderManager : MonoBehaviour
                 orderCompleted = false; // Устанавливаем состояние заказа как невыполненный
                 Debug.Log("New order received for recipe " + recipeIndex + ": " + recipeName);
                 UpdateOrderUI(recipeName, recipeSprite);
-
-                // Вызов метода Dialog у Лилит
-                lilith.Dialog($"Can you make '{recipeName}'? Search for needed ingredients in book , buy them in shop , then put all 3 ingredients on table and craft , then brew the potion in the cauldron spinning it , and give it to me in Order menu");
+                if(GameManager.Instance.GetCurrentLevel() > 1 && !TutorialManager.Instance.GetTutorialActive())
+                {
+                    // Вызов метода Dialog у Лилит
+                    lilith.Dialog($"Can you make '{recipeName}'? Thanks!");
+                }
+                
             }
         }
     }
@@ -110,18 +119,23 @@ public class OrderManager : MonoBehaviour
         recipeImage.sprite = recipeSprite;
     }
 
-    public void CompleteOrder(Potion potion)
+    private void CompleteOrder(Potion potion)
     {
         if (!orderCompleted)
         {
-            orderCompleted = true; // Помечаем текущий заказ как завершенный
+            orderCompleted = true;
             GetPaid(potion);
             Destroy(potion.gameObject);
-            GameManager.Instance.AddExperience(70);
-            // Вызов метода Dialog у Лилит для благодарности
-            lilith.Dialog("Is it ready yet? Nice! Thanks for your help!");
-            //SaveCurrentOrder(); // Сохраняем текущий заказ после завершения
-            Inventory.Instance.SaveInventory(); // Сохраняем инвентарь после завершения заказа
+            if (GameManager.Instance.GetCurrentLevel() >= 2 && GameManager.Instance.GetCurrentExperience() > 0)
+            {
+                UIManager.Instance.HideAllPanels();
+                lilith.Dialog("Is it ready yet? Nice! Thanks for your help!");
+            }
+            GameManager.Instance.AddExperience(70);                 
+            Inventory.Instance.SaveInventory();
+
+            
+            
         }
     }
 

@@ -166,6 +166,10 @@ public class Inventory : MonoBehaviour
                 newItem.transform.localPosition = Vector3.zero;
                 newItem.transform.localScale = Vector3.one;
                 Debug.Log($"Предмет добавлен в инвентарь: {craftedItem.itemName}");
+                if(GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() < 100)
+                {
+                    TutorialManager.Instance.Next();
+                }
                 SaveInventory();
                 return;
             }
