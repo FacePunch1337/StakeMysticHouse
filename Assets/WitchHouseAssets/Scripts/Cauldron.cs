@@ -16,7 +16,12 @@ public class Cauldron : MonoBehaviour, IInteractable
 
     private float rotationProgress = 0f;
     private float progressPerRotation = 1f / 50f;
+    private Lilith lilith;
 
+    private void Start()
+    {
+        lilith = GameManager.Instance.GetComponent<Lilith>();
+    }
     public void Interact()
     {
         cauldron.SetActive(true);

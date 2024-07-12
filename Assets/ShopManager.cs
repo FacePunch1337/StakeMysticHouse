@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     public TMP_Text itemNameText; // Assign the text UI element for displaying item name
     private ShopSlot selectedSlot; // переменна€ дл€ хранени€ выбранного слота
     private int unlockedItemCount = 0; //  оличество разблокированных предметов
-
+    private Lilith lilith;
     private void Awake()
     {
         Instance = this;
@@ -21,6 +21,8 @@ public class ShopManager : MonoBehaviour
         tradeButton.interactable = false; // Ensure the button is initially disabled
         tradeButton.onClick.AddListener(OnTradeButtonClick);
         LoadUnlockedItems();
+
+        lilith = GameManager.Instance.GetComponent<Lilith>();
     }
 
     public void UnlockItems(int count)
@@ -75,6 +77,10 @@ public class ShopManager : MonoBehaviour
             Inventory.Instance.AddIngredient(item);
             selectedSlot.Deselect(); // снимаем выбор с текущего слота
             selectedSlot = null; // сбрасываем выбранный слот
+        }
+        else if(GameManager.Instance.GetMoney() < selectedSlot.price)
+        {
+            lilith.Dialog("Looks like you don't have enough money");
         }
     }
 

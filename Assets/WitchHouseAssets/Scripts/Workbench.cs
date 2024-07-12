@@ -9,7 +9,11 @@ public class Workbench : MonoBehaviour, IInteractable
     [SerializeField] private List<Recipe> recipes; // Список рецептов
     [SerializeField] private Image recipeImage; // Для отображения изображения рецепта
 
-  
+    
+    private void Start()
+    {
+       
+    }
     public void Interact()
     {
         table.SetActive(true);
@@ -55,15 +59,18 @@ public class Workbench : MonoBehaviour, IInteractable
                 }
 
                 Debug.Log("Неверная комбинация ингредиентов");
+                Lilith.Instance.Dialog("Wrong combination of ingredients");
             }
             else
             {
                 Debug.Log("Один или несколько предметов не найдены в слотах");
+                
             }
         }
         else
         {
             Debug.Log("Недостаточно ингредиентов");
+            Lilith.Instance.Dialog("It seems like you forgot something");
         }
     }
 

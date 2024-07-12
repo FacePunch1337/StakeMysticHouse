@@ -7,6 +7,20 @@ using UnityEngine.UI;
 
 public class Lilith : MonoBehaviour
 {
+    public static Lilith Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     [SerializeField] private List<Sprite> emotes;
     [SerializeField] private GameObject lilith;
     [SerializeField] private TMP_Text lilithText;
@@ -28,7 +42,7 @@ public class Lilith : MonoBehaviour
             lilith.GetComponent<Image>().sprite = emotes[currentEmoteIndex];
         }
 
-       // okButton.onClick.AddListener(OnOkButtonClick);
+        // okButton.onClick.AddListener(OnOkButtonClick);
     }
 
     public void Dialog(string text)
@@ -64,16 +78,29 @@ public class Lilith : MonoBehaviour
             lilith.GetComponent<Image>().sprite = emotes[currentEmoteIndex];
             AudioManager.Instance.PlaySound(AudioManager.Sound.LilithVoice2);
         }
-        else if(TutorialManager.Instance.GetTutorialActive() && TutorialManager.Instance.GetCurrentStep() == 12 && currentSentenceIndex == sentences.Count)
+        else if (TutorialManager.Instance.GetTutorialActive() && TutorialManager.Instance.GetCurrentStep() == 12 && currentSentenceIndex == sentences.Count)
         {
             TutorialManager.Instance.EndTutorial();
         }
+        else if (TutorialManager.Instance.GetTutorialActive() && TutorialManager.Instance.GetCurrentStep() == 2 && currentSentenceIndex == sentences.Count)
+        {
+
+            Invoke("GiveFirstRewardInTutorial", 1f);
+
+
+        }
         else
         {
-            // Close the dialog UI if all sentences are shown
+           
             UIManager.Instance.CloseLilith();
             IsDialogActive = false;
             OnDialogCompleted?.Invoke();
         }
+    }
+
+    public void GiveFirstRewardInTutorial()
+    {
+        RewardManager.Instance.GiveFirstReward();
+        RewardManager.Instance.StartRewardCountdown(); 
     }
 }

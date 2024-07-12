@@ -56,6 +56,7 @@ public class OrderManager : MonoBehaviour
                 else
                 {
                     Debug.Log("Зелье не соответствует заказу.");
+                    lilith.Dialog($"Oh, that's not what I need. I need a '{currentOrder.orderName}'");
                 }
             }
         }
