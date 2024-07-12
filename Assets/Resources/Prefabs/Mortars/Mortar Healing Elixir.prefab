@@ -103,4 +103,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b41e6206ee67442ac84e7e901a35a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: 'Mortar Healing Elixir '
+  itemName: Mortar Healing Elixir

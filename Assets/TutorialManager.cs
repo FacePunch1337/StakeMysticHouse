@@ -69,23 +69,23 @@ public class TutorialManager : MonoBehaviour
             case 3:
                 Debug.Log("Next step 3");
                 currentTarget = interactObjects[3];
-                StartCoroutine(Instruction("Select the ingredients you need and click the buy button. After purchasing, close the store", currentTarget));
+                StartCoroutine(Instruction("Select the ingredients you need and click the buy button", currentTarget));
                 break;
 
             case 4:
                 Debug.Log("Next step 4");
                 currentTarget = interactObjects[4];
-                StartCoroutine(Instruction("Open the workbench and assemble the mortar.", currentTarget));
+                StartCoroutine(Instruction("Nice , you have all needed ingredients , close the store . Open the workbench and assemble the mortar.", currentTarget));
                 break;
             case 5:
                 Debug.Log("Next step 5");
                 currentTarget = interactObjects[5];
-                StartCoroutine(Instruction("Transfer all the ingredients in the order they should be and press the craft button.", currentTarget));
+                StartCoroutine(Instruction("Transfer all the ingredients in the order they should be and press the craft button . TIP : you can see the needed order anytime in book menu.", currentTarget));
                 break;
             case 6:
                 Debug.Log("Next step 6");
                 currentTarget = interactObjects[6];
-                StartCoroutine(Instruction("Wonderful! Now we can start brewing the potion.", currentTarget));
+                StartCoroutine(Instruction("Wonderful! Now we can start brewing the potion . Close the workbench menu", currentTarget));
                 break;
             case 7:
                 Debug.Log("Next step 7");
@@ -94,16 +94,17 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 8:
                 Debug.Log("Next step 8");
-                StartCoroutine(Instruction("Move the mortar to the slot and press the 'Brew' button. After which you will need to mix the potion"));
+                currentTarget = interactObjects[8];
+                StartCoroutine(Instruction("Move the mortar to the slot and press the 'Brew' button. After which you will need to mix the potion" , currentTarget));
                 break;
             case 9:
                 Debug.Log("Next step 9");
-                currentTarget = interactObjects[8];
-                StartCoroutine(Instruction("Nice! Good job!", currentTarget));
+                currentTarget = interactObjects[9];
+                StartCoroutine(Instruction("Nice! Now you can close cauldron menu"));
                 break;
             case 10:
                 Debug.Log("Next step 10");
-                currentTarget = interactObjects[9];
+                currentTarget = interactObjects[10];
                 StartCoroutine(Instruction("Okay, now give the potion to the order menu.", currentTarget));
                 break;
             case 11:
@@ -114,7 +115,7 @@ public class TutorialManager : MonoBehaviour
             case 12:
                 Debug.Log("Next step 12");
                 UIManager.Instance.HideAllPanels();
-                StartCoroutine(Instruction("Great. Thank you very much for your help! You did well! Look at your recipes. They open at every level.", currentTarget));
+                StartCoroutine(Instruction("Great. Thank you very much for your help! You did well! Look at your recipes. They open at every level", currentTarget));
                 break;
 
                 // Добавить больше шагов по мере необходимости
@@ -123,22 +124,31 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Instruction(string message, GameObject target)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         ShowLilith(message);
+        CheckForTutorialTrigger(target);
         HighlightObject(target);
     }
     private IEnumerator Instruction(string message)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         ShowLilith(message);
 
     }
-
-
+    
     private void ShowLilith(string text)
     {
         lilithPanel.SetActive(true);
         lilith.Dialog(text);
+    }
+
+    private void CheckForTutorialTrigger(GameObject target)
+    {
+        if (target.TryGetComponent<TutorialNextTrigger>(out TutorialNextTrigger trigger))
+        {
+            trigger.Init();
+            Debug.Log($"Activated TutorialTrigger");
+        }
     }
 
     private void HighlightObject(GameObject target)

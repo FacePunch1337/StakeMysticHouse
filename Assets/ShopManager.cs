@@ -36,19 +36,30 @@ public class ShopManager : MonoBehaviour
         SaveUnlockedItems();
     }
 
-    public void CheckSelectedSlot()
+    public void CheckSelectedSlot(ShopSlot shopSlot , bool isSelected)
     {
         selectedSlot = null;
         bool anySlotSelected = false;
 
         foreach (ShopSlot slot in itemSlots)
         {
-            if (slot.IsSelected())
+            if (slot != shopSlot)
+            {
+                slot.Deselect();
+                continue;
+            }
+
+            if (isSelected)
             {
                 selectedSlot = slot; // сохраняем выбранный слот
                 anySlotSelected = true;
-                break;
             }
+            else
+            {
+                selectedSlot = null;
+                anySlotSelected = false;
+            }
+            
         }
 
         tradeButton.interactable = anySlotSelected;

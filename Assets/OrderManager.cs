@@ -22,6 +22,8 @@ public class OrderManager : MonoBehaviour
 
     private Lilith lilith;
     private TutorialManager tutorialManager;
+
+    public event System.Action OnOrderComplete;
     private void Start()
     {
         lilith = GameManager.Instance.GetComponent<Lilith>();
@@ -134,7 +136,7 @@ public class OrderManager : MonoBehaviour
             GameManager.Instance.AddExperience(70);                 
             Inventory.Instance.SaveInventory();
 
-            
+            OnOrderComplete?.Invoke();
             
         }
     }

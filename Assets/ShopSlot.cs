@@ -17,7 +17,7 @@ public class ShopSlot : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(isUnlocked); // Убедитесь, что слот изначально скрыт
+        gameObject.SetActive(isUnlocked); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         priceText.text = price.ToString();
     }
 
@@ -31,7 +31,7 @@ public class ShopSlot : MonoBehaviour
     public void ToggleSelection()
     {
         isSelected = !isSelected;
-        ShopManager.Instance.CheckSelectedSlot();
+        ShopManager.Instance.CheckSelectedSlot(this , isSelected);
         if (isSelected)
         {
             string itemName = GetItemName();
