@@ -21,6 +21,9 @@ public class TutorialManager : MonoBehaviour
 
     private bool tutorialActive = false;
     public bool GetTutorialActive() { return tutorialActive; }
+
+   
+    private Coroutine blinkingCoroutine;
     private void Awake()
     {
         if (Instance == null)
@@ -99,23 +102,24 @@ public class TutorialManager : MonoBehaviour
                 break;
             case 9:
                 Debug.Log("Next step 9");
-                currentTarget = interactObjects[9];
+               
                 StartCoroutine(Instruction("Nice! Now you can close cauldron menu"));
                 break;
             case 10:
                 Debug.Log("Next step 10");
-                currentTarget = interactObjects[10];
+                currentTarget = interactObjects[9];
                 StartCoroutine(Instruction("Okay, now give the potion to the order menu.", currentTarget));
                 break;
             case 11:
                 Debug.Log("Next step 11");
+                currentTarget = interactObjects[10];
                 UIManager.Instance.HideAllPanels();
                 StartCoroutine(Instruction("Transfer the potion to the slot and press the “Trade” button.", currentTarget));
                 break;
             case 12:
-                Debug.Log("Next step 12");
+                Debug.Log("Next step 12");             
                 UIManager.Instance.HideAllPanels();
-                StartCoroutine(Instruction("Great. Thank you very much for your help! You did well! Look at your recipes. They open at every level", currentTarget));
+                StartCoroutine(Instruction("Great. Thank you very much for your help! You did well! Look at your recipes. They open at every level"));
                 break;
 
                 // Добавить больше шагов по мере необходимости
@@ -156,19 +160,48 @@ public class TutorialManager : MonoBehaviour
         Image imageComponent = target.GetComponent<Image>();
         if (imageComponent != null)
         {
-            Color newColor;
-            if (ColorUtility.TryParseHtmlString("#F0FF99", out newColor))
+            if (blinkingCoroutine == null)
             {
-                imageComponent.color = newColor;
-            }
-            else
-            {
-                Debug.LogWarning("Failed to parse color string");
+                blinkingCoroutine = StartCoroutine(BlinkObject(imageComponent));
             }
         }
         else
         {
             Debug.LogWarning("Target does not have an Image component");
+        }
+    }
+
+    private IEnumerator BlinkObject(Image image)
+    {
+        Color originalColor = image.color;
+        Color highlightColor;
+        if (ColorUtility.TryParseHtmlString("#F0FF99", out highlightColor))
+        {
+            float blinkDuration = 1f; // Duration for a full blink cycle (fade in and out)
+            float halfDuration = blinkDuration / 2f;
+
+            while (true) // Бесконечный цикл для мигания
+            {
+                // Fade in
+                for (float t = 0; t < halfDuration; t += Time.deltaTime)
+                {
+                    float alpha = Mathf.Lerp(0, 1, t / halfDuration);
+                    image.color = new Color(highlightColor.r, highlightColor.g, highlightColor.b, alpha);
+                    yield return null;
+                }
+
+                // Fade out
+                for (float t = 0; t < halfDuration; t += Time.deltaTime)
+                {
+                    float alpha = Mathf.Lerp(1, 0, t / halfDuration);
+                    image.color = new Color(highlightColor.r, highlightColor.g, highlightColor.b, alpha);
+                    yield return null;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Failed to parse color string");
         }
     }
 
@@ -185,6 +218,29 @@ public class TutorialManager : MonoBehaviour
         NextStep();
     }
 
+    private void RemoveHighlight(GameObject target)
+    {
+       
+        Image imageComponent = target.GetComponent<Image>();
+        if (imageComponent != null)
+        {
+            // Останавливаем мигание и убираем подсветку
+            if (blinkingCoroutine != null)
+            {
+                StopCoroutine(blinkingCoroutine);
+                blinkingCoroutine = null;
+            }
+            // Возвращаем изначальный цвет (можно задать через прозрачность или другой способ)
+            imageComponent.color = Color.white; // Пример возврата к белому цвету
+        }
+    }
+
+    public void EndTutorial()
+    {
+        tutorialActive = false;
+        RemoveHighlight(currentTarget);
+    }
+
     public void TryMoveNext(int triggeredStep)
     {
         if (currentStep != triggeredStep)
@@ -194,21 +250,8 @@ public class TutorialManager : MonoBehaviour
     }
 
 
-    private void RemoveHighlight(GameObject target)
-    {
-        Image imageComponent = target.GetComponent<Image>();
-        if (imageComponent != null)
-        {
-            // Возвращаем изначальный цвет (можно задать через прозрачность или другой способ)
-            imageComponent.color = Color.white; // Пример возврата к белому цвету
-        }
-    }
-
-    public void EndTutorial()
-    {
-        tutorialActive = false;
-    }
-
+   
+   
 
     [System.Serializable]
     private struct TutorialInstruction

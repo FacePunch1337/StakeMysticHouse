@@ -94,6 +94,8 @@ public class GameManager : MonoBehaviour
 
             if (currentLevel > 1)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Sound.RewardSound);
+                UIManager.Instance.ShowLevelUpView();
                 ShopManager.Instance.UnlockItems(2); // На каждом новом уровне разблокируем 2 новых предмета
             }
 

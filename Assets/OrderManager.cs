@@ -130,6 +130,7 @@ public class OrderManager : MonoBehaviour
             Destroy(potion.gameObject);
             if (GameManager.Instance.GetCurrentLevel() >= 2 && GameManager.Instance.GetCurrentExperience() > 0)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Sound.SellSound);
                 UIManager.Instance.HideAllPanels();
                 lilith.Dialog("Is it ready yet? Nice! Thanks for your help!");
             }

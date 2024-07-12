@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,9 +19,8 @@ public class UIManager : MonoBehaviour
         Settings
     }
 
-   
     [SerializeField] private GameObject bookshelfPanel;
-    [SerializeField] private GameObject workbanchPanel;
+    [SerializeField] private GameObject workbenchPanel;
     [SerializeField] private GameObject cauldronPanel;
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject orderPanel;
@@ -30,10 +28,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject lilithPanel;
     [SerializeField] private GameObject rewardPanel;
 
-    // Добавьте ссылки на UI-элементы для уровня и прогресс-бара
+    [SerializeField] private GameObject levelUpView;
+    [SerializeField] private TMP_Text levelUpViewText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private Image experienceBar;
+
+    private CanvasGroup levelUpCanvasGroup1;
+    private CanvasGroup levelUpCanvasGroup2;
 
     private void Awake()
     {
@@ -46,6 +48,9 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        levelUpCanvasGroup1 = levelUpView.GetComponent<CanvasGroup>();
+        levelUpCanvasGroup2 = levelUpViewText.GetComponent<CanvasGroup>();
     }
 
     private void Start()
@@ -60,21 +65,19 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator ShowPanelWithDelay(PanelType panelType, float delay)
     {
-        
         yield return new WaitForSeconds(delay);
 
         switch (panelType)
         {
-
             case PanelType.Cauldron:
-                cauldronPanel.SetActive(true);       
+                cauldronPanel.SetActive(true);
                 OpenInventory("mortars");
                 break;
             case PanelType.Bookshelf:
                 bookshelfPanel.SetActive(true);
                 break;
             case PanelType.Workbench:
-                workbanchPanel.SetActive(true);
+                workbenchPanel.SetActive(true);
                 OpenInventory("ingredients");
                 break;
             case PanelType.Shop:
@@ -93,19 +96,63 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowLevelUpView()
+    {
+        StartCoroutine(ShowLevelUpViewCoroutine());
+    }
+
+    private IEnumerator ShowLevelUpViewCoroutine()
+    {
+        float duration = 0.5f; // Длительность анимации
+
+        // Появление
+        levelUpView.SetActive(true);
+        float startTime = Time.time;
+        float startAlpha = 0f;
+        float endAlpha = 1f;
+
+        while (Time.time < startTime + duration)
+        {
+            float progress = (Time.time - startTime) / duration;
+            levelUpCanvasGroup1.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            levelUpCanvasGroup2.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            yield return null;
+        }
+        levelUpCanvasGroup1.alpha = endAlpha;
+        levelUpCanvasGroup2.alpha = endAlpha;
+
+        // Задержка перед исчезновением
+        yield return new WaitForSeconds(1f);
+
+        // Исчезновение
+        startTime = Time.time;
+        startAlpha = 1f;
+        endAlpha = 0f;
+
+        while (Time.time < startTime + duration)
+        {
+            float progress = (Time.time - startTime) / duration;
+            levelUpCanvasGroup1.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            levelUpCanvasGroup2.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            yield return null;
+        }
+        levelUpCanvasGroup1.alpha = endAlpha;
+        levelUpCanvasGroup2.alpha = endAlpha;
+
+        levelUpView.SetActive(false);
+    }
+
     public void HideAllPanels()
     {
         AudioManager.Instance.PlaySound(AudioManager.Sound.ClickSound);
         cauldronPanel.SetActive(false);
         bookshelfPanel.SetActive(false);
-        workbanchPanel.SetActive(false);
+        workbenchPanel.SetActive(false);
         shopPanel.SetActive(false);
         orderPanel.SetActive(false);
-       
-        CloseInventry();
-       
-
+        CloseInventory();
     }
+
     private void OpenInventory(string name)
     {
         inventoryPanel.SetActive(true);
@@ -123,35 +170,39 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PlaySound(AudioManager.Sound.ClickSound);
         ShowPanel(PanelType.Order);
     }
+
     public void OpenLilith()
     {
         ShowPanel(PanelType.Lilith);
     }
+
     public void OpenReward()
     {
         ShowPanel(PanelType.Reward);
     }
+
     public void OpenSettings()
     {
         ShowPanel(PanelType.Settings);
     }
+
     public void CloseLilith()
     {
         lilithPanel.SetActive(false);
     }
+
     public void CloseReward()
     {
         rewardPanel.SetActive(false);
     }
-    private void CloseInventry()
+
+    private void CloseInventory()
     {
         inventoryPanel.SetActive(false);
     }
 
-    // Метод для обновления UI уровня и прогресса
     public void UpdateUI()
     {
-
         int currentLevel = GameManager.Instance.GetCurrentLevel();
         int currentExperience = GameManager.Instance.GetCurrentExperience();
         int experienceToNextLevel = GameManager.Instance.GetExperienceToNextLevel();
