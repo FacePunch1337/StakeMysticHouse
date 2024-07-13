@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
     private ShopSlot selectedSlot; // переменная для хранения выбранного слота
     private int unlockedItemCount = 0; // Количество разблокированных предметов
     private Lilith lilith;
+
     private void Awake()
     {
         Instance = this;
@@ -38,33 +39,25 @@ public class ShopManager : MonoBehaviour
         SaveUnlockedItems();
     }
 
-    public void CheckSelectedSlot(ShopSlot shopSlot , bool isSelected)
+    public void CheckSelectedSlot(ShopSlot shopSlot, bool isSelected)
     {
-        selectedSlot = null;
-        bool anySlotSelected = false;
-
-        foreach (ShopSlot slot in itemSlots)
+        if (isSelected)
         {
-            if (slot != shopSlot)
+            if (selectedSlot != null && selectedSlot != shopSlot)
             {
-                slot.Deselect();
-                continue;
+                selectedSlot.Deselect();
             }
 
-            if (isSelected)
-            {
-                selectedSlot = slot; // сохраняем выбранный слот
-                anySlotSelected = true;
-            }
-            else
-            {
-                selectedSlot = null;
-                anySlotSelected = false;
-            }
-            
+            selectedSlot = shopSlot;
+            selectedSlot.Select();
+        }
+        else
+        {
+            shopSlot.Deselect();
+            selectedSlot = null;
         }
 
-        tradeButton.interactable = anySlotSelected;
+        tradeButton.interactable = isSelected;
     }
 
     private void OnTradeButtonClick()
@@ -75,10 +68,9 @@ public class ShopManager : MonoBehaviour
             GameManager.Instance.Pay(selectedSlot.price);
             Ingredient item = selectedSlot.GetIngredient();
             Inventory.Instance.AddIngredient(item);
-            selectedSlot.Deselect(); // снимаем выбор с текущего слота
-            selectedSlot = null; // сбрасываем выбранный слот
+            // Не сбрасываем выделение слота
         }
-        else if(GameManager.Instance.GetMoney() < selectedSlot.price)
+        else if (GameManager.Instance.GetMoney() < selectedSlot.price)
         {
             lilith.Dialog("Looks like you don't have enough money");
         }

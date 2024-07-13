@@ -2777,6 +2777,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 375
   priceText: {fileID: 175881638}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &185607156
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,6 +6234,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 475
   priceText: {fileID: 518854151}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &472643884
 GameObject:
   m_ObjectHideFlags: 0
@@ -8049,6 +8053,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 450
   priceText: {fileID: 480225904}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &569318586
 GameObject:
   m_ObjectHideFlags: 0
@@ -9791,6 +9797,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 150
   priceText: {fileID: 1746956866}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &705424477
 GameObject:
   m_ObjectHideFlags: 0
@@ -10516,6 +10524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 250
   priceText: {fileID: 195919882}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &727275355
 GameObject:
   m_ObjectHideFlags: 0
@@ -12361,6 +12371,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 400
   priceText: {fileID: 2085667095}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &836635614
 GameObject:
   m_ObjectHideFlags: 0
@@ -15955,6 +15967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 1000
   priceText: {fileID: 149256177}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1116348390
 GameObject:
   m_ObjectHideFlags: 0
@@ -16522,6 +16536,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 225
   priceText: {fileID: 1353671168}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1141952440
 GameObject:
   m_ObjectHideFlags: 0
@@ -22541,6 +22557,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 425
   priceText: {fileID: 1604951810}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1199341908
 GameObject:
   m_ObjectHideFlags: 0
@@ -23195,6 +23213,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 175
   priceText: {fileID: 258612839}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1235410622
 GameObject:
   m_ObjectHideFlags: 0
@@ -24122,6 +24142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 125
   priceText: {fileID: 1135304237}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1329061258
 GameObject:
   m_ObjectHideFlags: 0
@@ -24417,6 +24439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 300
   priceText: {fileID: 37111766}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1336910999
 GameObject:
   m_ObjectHideFlags: 0
@@ -26290,6 +26314,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 100
   priceText: {fileID: 533083076}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1446501704
 GameObject:
   m_ObjectHideFlags: 0
@@ -26901,6 +26927,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 325
   priceText: {fileID: 2014607788}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1469730588
 GameObject:
   m_ObjectHideFlags: 0
@@ -30821,6 +30849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 200
   priceText: {fileID: 1612154074}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1697602238
 GameObject:
   m_ObjectHideFlags: 0
@@ -31059,6 +31089,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 25
   priceText: {fileID: 848956959}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1718151424
 GameObject:
   m_ObjectHideFlags: 0
@@ -33691,6 +33723,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 75
   priceText: {fileID: 1073778539}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1933196113
 GameObject:
   m_ObjectHideFlags: 0
@@ -35275,6 +35309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 50
   priceText: {fileID: 727275357}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &2041863447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35559,6 +35595,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 275
   priceText: {fileID: 1442270381}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2042465658
 GameObject:
   m_ObjectHideFlags: 0
@@ -37099,6 +37137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 350
   priceText: {fileID: 1800845921}
+  selectedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  deselectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &2129074697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37695,7 +37735,12 @@ MonoBehaviour:
   - {fileID: 224157880}
   - {fileID: 514303649}
   - {fileID: 1718151426}
-  activitySlot: {fileID: 0}
+  activitySlots:
+  - {fileID: 349693041}
+  - {fileID: 1799985394}
+  - {fileID: 2034894361}
+  - {fileID: 876675459}
+  - {fileID: 1336911001}
   ingredientsGrid: {fileID: 332913412}
   mortarsGrid: {fileID: 244712249}
   potionsGrid: {fileID: 1752609379}

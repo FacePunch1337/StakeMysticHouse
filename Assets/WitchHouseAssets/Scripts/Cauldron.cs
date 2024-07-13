@@ -112,7 +112,7 @@ public class Cauldron : MonoBehaviour, IInteractable
 
         // Добавляем новый предмет в инвентарь
         Inventory.Instance.AddPotion(newItem);
-        Inventory.Instance.ShowGrid("potions");
+        //Inventory.Instance.ShowGrid("potions");
         GameManager.Instance.AddExperience(20);
 
 

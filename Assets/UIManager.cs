@@ -198,6 +198,7 @@ public class UIManager : MonoBehaviour
 
     private void CloseInventory()
     {
+        Inventory.Instance.CheckActivitySlotsBeforeCloseInventory();
         inventoryPanel.SetActive(false);
     }
 

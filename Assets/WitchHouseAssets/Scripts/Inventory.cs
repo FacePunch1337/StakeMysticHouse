@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     public event System.Action<Mortar> OnMortarAdd;
     [SerializeField] private List<Slot> PotionsSlots;
     public event System.Action<Potion> OnPotionAdd;
-    [SerializeField] private Slot activitySlot;
+    [SerializeField] private Slot[] activitySlots;
 
     [SerializeField] private GameObject ingredientsGrid;
     [SerializeField] private GameObject mortarsGrid;
@@ -87,6 +87,84 @@ public class Inventory : MonoBehaviour
         potionsButton.Select();
         scrollRect.content = potionsGrid.GetComponent<RectTransform>();
     }
+
+    public void CheckActivitySlotsBeforeCloseInventory()
+    {
+        foreach (Slot activitySlot in activitySlots)
+        {
+            if (activitySlot.gameObject.transform.childCount > 0)
+            {
+                GameObject item = activitySlot.gameObject.transform.GetChild(0).gameObject;
+                if (item.GetComponent<Ingredient>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in IngredientsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"Предмет добавлен в инвентарь: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"Не удалось добавить предмет в инвентарь: {item}. Нет свободных слотов.");
+                    }
+                }
+                else if (item.GetComponent<Mortar>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in MortarsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"Предмет добавлен в инвентарь: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"Не удалось добавить предмет в инвентарь: {item}. Нет свободных слотов.");
+                    }
+                }
+                else if (item.GetComponent<Potion>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in PotionsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"Предмет добавлен в инвентарь: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"Не удалось добавить предмет в инвентарь: {item}. Нет свободных слотов.");
+                    }
+                }
+            }
+        }
+    }
+
 
     public void AddIngredient(Ingredient ingredient)
     {
@@ -200,16 +278,6 @@ public class Inventory : MonoBehaviour
         Potion newPotion = newItemObject.AddComponent<Potion>();
         newPotion.itemName = craftedItem.itemName;
 
-        if (activitySlot != null && activitySlot.transform.childCount == 0)
-        {
-            newItem.transform.SetParent(activitySlot.transform);
-            newItem.transform.localPosition = Vector3.zero;
-            newItem.transform.localScale = Vector3.one;
-            Debug.Log($"Предмет добавлен в активный слот: {craftedItem.itemName}");
-            SaveInventory();
-            OnPotionAdd?.Invoke(newPotion); // What is active Slot ? 
-            return;
-        }
 
         foreach (Slot slot in PotionsSlots)
         {

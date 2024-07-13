@@ -9,6 +9,9 @@ public class ShopSlot : MonoBehaviour
     private bool isUnlocked = false;
     public int price = 0;
     [SerializeField] private TMP_Text priceText;
+    [SerializeField] private Color selectedColor = Color.yellow; // Цвет для выделенного слота
+    [SerializeField] private Color deselectedColor = Color.white; // Цвет для невыделенного слота
+
     private void Awake()
     {
         button = GetComponent<Button>();
@@ -17,8 +20,9 @@ public class ShopSlot : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(isUnlocked); // ���������, ��� ���� ���������� �����
+        gameObject.SetActive(isUnlocked);
         priceText.text = price.ToString();
+        UpdateSlotColor();
     }
 
     public void Unlock()
@@ -27,19 +31,15 @@ public class ShopSlot : MonoBehaviour
         gameObject.SetActive(isUnlocked);
     }
 
-
     public void ToggleSelection()
     {
-        isSelected = !isSelected;
-        ShopManager.Instance.CheckSelectedSlot(this , isSelected);
-        if (isSelected)
+        if (!isSelected)
         {
-            string itemName = GetItemName();
-            ShopManager.Instance.DisplayItemName(itemName);
+            ShopManager.Instance.CheckSelectedSlot(this, true);
         }
         else
         {
-            ShopManager.Instance.DisplayItemName("");
+            ShopManager.Instance.CheckSelectedSlot(this, false);
         }
     }
 
@@ -51,6 +51,20 @@ public class ShopSlot : MonoBehaviour
     public void Deselect()
     {
         isSelected = false;
+        UpdateSlotColor();
+    }
+
+    public void Select()
+    {
+        isSelected = true;
+        UpdateSlotColor();
+    }
+
+    private void UpdateSlotColor()
+    {
+        ColorBlock colors = button.colors;
+        colors.normalColor = isSelected ? selectedColor : deselectedColor;
+        button.colors = colors;
     }
 
     public string GetItemName()

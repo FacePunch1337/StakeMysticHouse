@@ -90,7 +90,7 @@ public class Workbench : MonoBehaviour, IInteractable
 
         // Добавляем новый предмет в инвентарь
         Inventory.Instance.AddMortar(newItem);
-        Inventory.Instance.ShowGrid("mortars");
+       // Inventory.Instance.ShowGrid("mortars");
         GameManager.Instance.AddExperience(10);
         Debug.Log("Создан новый предмет и добавлен в инвентарь: " + newItem.itemName);
     }
