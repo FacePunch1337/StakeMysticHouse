@@ -37,7 +37,15 @@ public class Cauldron : MonoBehaviour, IInteractable
     {
         if (itemSlots[0].HasItem)
         {
-            Mortar mortar = itemSlots[0].GetMortar().GetComponent<Mortar>();
+            Mortar mortar = null;
+            try
+            {
+                mortar = itemSlots[0].GetMortar().GetComponent<Mortar>();
+            }
+            catch
+            {
+                lilith.Dialog($"You can only cook blanks, crafted on a workbench.");
+            }
 
             if (mortar != null)
             {
@@ -60,6 +68,10 @@ public class Cauldron : MonoBehaviour, IInteractable
                     }
                 }
             }
+          
+            
+               
+            
         }
     }
 
