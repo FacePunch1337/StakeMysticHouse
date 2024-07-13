@@ -41,9 +41,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        LoadProgress();
+        CheckLevel();
+        if (currentLevel >= 2)
+        {
+            LoadProgress();
 
-        // Обновление интерфейса после загрузки прогресса
+
+        }
         for (int i = 0; i < recipeUIs.Length; i++)
         {
             UpdateRecipeUI(i);
@@ -252,6 +256,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("Progress saved.");
     }
 
+    private void CheckLevel()
+    {
+        currentLevel = PlayerPrefs.GetInt("Level", 1);
+    }
     private void LoadProgress()
     {
         Debug.Log("Loading progress...");
@@ -289,4 +297,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    void OnApplicationQuit()
+    {
+        Inventory.Instance.CheckActivitySlotsBeforeCloseInventory();
+        
+    }
 }

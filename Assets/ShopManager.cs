@@ -50,6 +50,7 @@ public class ShopManager : MonoBehaviour
 
             selectedSlot = shopSlot;
             selectedSlot.Select();
+            itemNameText.text = selectedSlot.transform.GetChild(0).name;
         }
         else
         {

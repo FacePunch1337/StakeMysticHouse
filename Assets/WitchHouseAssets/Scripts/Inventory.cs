@@ -43,6 +43,9 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         LoadInventory();
+
+
+
     }
 
     public void ShowGrid(string name)
@@ -324,7 +327,11 @@ public class Inventory : MonoBehaviour
 
     public void SaveInventory()
     {
-        for (int i = 0; i < IngredientsSlots.Count; i++)
+        if (GameManager.Instance.GetCurrentLevel() >= 2)
+        {
+
+        
+            for (int i = 0; i < IngredientsSlots.Count; i++)
         {
             if (IngredientsSlots[i].transform.childCount > 0)
             {
@@ -360,13 +367,14 @@ public class Inventory : MonoBehaviour
             else
             {
                 PlayerPrefs.SetString("Potion_" + i, "");
+                }
             }
+            PlayerPrefs.Save();
         }
 
-        PlayerPrefs.Save();
     }
 
-    private void LoadInventory()
+        private void LoadInventory()
     {
         Debug.Log("Начало загрузки инвентаря");
 
@@ -405,7 +413,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError($"Префаб {itemName} не найден в Resources/Prefabs!");
+                    Debug.LogError($"Префаб {itemName} не найден в Prefabs/Mortars");
                 }
             }
         }

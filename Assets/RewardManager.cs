@@ -31,14 +31,21 @@ public class RewardManager : MonoBehaviour
 
     private void Start()
     {
-        LoadLastRewardTime();
-
-        if (lastRewardTime != DateTime.MinValue)
+        if (GameManager.Instance.GetCurrentLevel() >= 2)
         {
-            isFirstRewardGiven = true;
-            nextRewardTime = lastRewardTime.AddMinutes(rewardIntervalMinutes);
-            StartRewardCountdown();
-        }
+            LoadLastRewardTime();
+
+            if (lastRewardTime != DateTime.MinValue)
+            {
+                isFirstRewardGiven = true;
+                nextRewardTime = lastRewardTime.AddMinutes(rewardIntervalMinutes);
+                StartRewardCountdown();
+            }
+        } 
+        
+           
+        
+        
     }
 
     public void StartRewardCountdown()
