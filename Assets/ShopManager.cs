@@ -65,17 +65,23 @@ public class ShopManager : MonoBehaviour
     {
         if (selectedSlot != null && GameManager.Instance.GetMoney() >= selectedSlot.price)
         {
+            if (Inventory.Instance.IsInventoryFull(Inventory.Instance.GetIngredientsSlots())) 
+            {
+                lilith.Dialog("Your inventory is full.");
+                return;
+            }
+
             AudioManager.Instance.PlaySound(AudioManager.Sound.BuySound);
             GameManager.Instance.Pay(selectedSlot.price);
             Ingredient item = selectedSlot.GetIngredient();
             Inventory.Instance.AddIngredient(item);
-            // Не сбрасываем выделение слота
         }
         else if (GameManager.Instance.GetMoney() < selectedSlot.price)
         {
             lilith.Dialog("Looks like you don't have enough money");
         }
     }
+
 
     public void DisplayItemName(string itemName)
     {

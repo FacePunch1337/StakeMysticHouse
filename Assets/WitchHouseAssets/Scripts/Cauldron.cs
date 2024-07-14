@@ -47,10 +47,16 @@ public class Cauldron : MonoBehaviour, IInteractable
                 lilith.Dialog($"You can only cook blanks, crafted on a workbench.");
             }
 
+
             if (mortar != null)
             {
                 Debug.Log($"Предметы в слотах: {mortar.itemName}");
 
+                if (Inventory.Instance.IsInventoryFull(Inventory.Instance.GetPotionsSlots())) // Or the relevant slots array
+                {
+                    lilith.Dialog("Your inventory is full.");
+                    return;
+                }
                 foreach (PotionModel potion in potions)
                 {
                     Debug.Log($"ВАРИМ: {mortar.name}!");
@@ -105,7 +111,7 @@ public class Cauldron : MonoBehaviour, IInteractable
     void CraftNewItem(PotionModel potion)
     {
         // Создаем новый предмет
-
+     
         AudioManager.Instance.PlaySound(AudioManager.Sound.BrewSound);
         AudioManager.Instance.PlaySound(AudioManager.Sound.CraftSound);
         CraftedItem<Potion> newItem = new CraftedItem<Potion>(potion.name, potion.image);

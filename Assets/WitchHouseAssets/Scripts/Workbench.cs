@@ -40,7 +40,11 @@ public class Workbench : MonoBehaviour, IInteractable
             if (ing1 != null && ing2 != null && ing3 != null)
             {
                 Debug.Log($"Предметы в слотах: {ing1.itemName}, {ing2.itemName}, {ing3.itemName}");
-                
+                if (Inventory.Instance.IsInventoryFull(Inventory.Instance.GetMortarsSlots())) // Or the relevant slots array
+                {
+                    Lilith.Instance.Dialog("Your inventory is full.");
+                    return;
+                }
                 // Проверяем каждый рецепт
                 foreach (Recipe recipe in recipes)
                 {

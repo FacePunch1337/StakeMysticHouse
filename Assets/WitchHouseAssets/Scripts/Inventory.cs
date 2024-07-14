@@ -7,11 +7,19 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance { get; private set; }
 
     [SerializeField] private ScrollRect scrollRect;
+
     [SerializeField] private List<Slot> IngredientsSlots;
+    public List<Slot> GetIngredientsSlots() { return IngredientsSlots; }
+
     public event System.Action<Ingredient> OnIngredientAdd;
+
     [SerializeField] private List<Slot> MortarsSlots;
+    public List<Slot> GetMortarsSlots() { return MortarsSlots; }
+
     public event System.Action<Mortar> OnMortarAdd;
+
     [SerializeField] private List<Slot> PotionsSlots;
+    public List<Slot> GetPotionsSlots() { return PotionsSlots; }
     public event System.Action<Potion> OnPotionAdd;
     [SerializeField] private Slot[] activitySlots;
 
@@ -171,6 +179,12 @@ public class Inventory : MonoBehaviour
 
     public void AddIngredient(Ingredient ingredient)
     {
+        if (IsInventoryFull(IngredientsSlots))
+        {
+            Debug.Log("Инвентарь полон, не удалось добавить предмет");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(ingredient.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -193,8 +207,8 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
     }
+
 
     public bool HasIngredient(Ingredient targetIngredient)
     {
@@ -220,6 +234,12 @@ public class Inventory : MonoBehaviour
 
     public void AddMortar(CraftedItem<Mortar> craftedItem)
     {
+        if (IsInventoryFull(MortarsSlots))
+        {
+            Debug.Log("Инвентарь полон, не удалось добавить предмет");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(craftedItem.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -242,9 +262,8 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
     }
-    
+
     public bool HasMortar(Mortar targetMortar)
     {
         foreach (Slot slot in MortarsSlots)
@@ -272,6 +291,12 @@ public class Inventory : MonoBehaviour
 
     public void AddPotion(CraftedItem<Potion> craftedItem)
     {
+        if (IsInventoryFull(PotionsSlots))
+        {
+            Debug.Log("Инвентарь полон, не удалось добавить предмет");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(craftedItem.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -281,7 +306,6 @@ public class Inventory : MonoBehaviour
         Potion newPotion = newItemObject.AddComponent<Potion>();
         newPotion.itemName = craftedItem.itemName;
 
-
         foreach (Slot slot in PotionsSlots)
         {
             if (slot.transform.childCount == 0)
@@ -290,7 +314,7 @@ public class Inventory : MonoBehaviour
                 newItem.transform.localPosition = Vector3.zero;
                 newItem.transform.localScale = Vector3.one;
                 Debug.Log($"Предмет добавлен в инвентарь: {craftedItem.itemName}");
-                if(GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() < 100)
+                if (GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() < 100)
                 {
                     TutorialManager.Instance.Next();
                 }
@@ -299,10 +323,8 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
-
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
     }
-    
+
     public bool HasPotion(Potion targetPotion)
     {
         foreach (Slot slot in PotionsSlots)
@@ -444,5 +466,15 @@ public class Inventory : MonoBehaviour
         Debug.Log("Загрузка инвентаря завершена");
     }
 
-
+    public bool IsInventoryFull(List<Slot> slots)
+    {
+        foreach (Slot slot in slots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                return false; // Found an empty slot, inventory is not full
+            }
+        }
+        return true; // No empty slots found, inventory is full
+    }
 }
