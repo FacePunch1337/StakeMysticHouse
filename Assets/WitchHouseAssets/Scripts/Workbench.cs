@@ -5,16 +5,20 @@ using UnityEngine.UI;
 public class Workbench : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject table;
-    [SerializeField] private Slot[] itemSlots; // Массив слотов для предметов на верстаке
-    [SerializeField] private List<Recipe> recipes; // Список рецептов
-    [SerializeField] private Image recipeImage; // Для отображения изображения рецепта
+    [SerializeField] private Slot[] itemSlots; // РњР°СЃСЃРёРІ СЃР»РѕС‚РѕРІ РґР»СЏ РїСЂРµРґРјРµС‚РѕРІ РЅР° РІРµСЂСЃС‚Р°РєРµ
+    [SerializeField] private List<Recipe> recipes; // РЎРїРёСЃРѕРє СЂРµС†РµРїС‚РѕРІ
+    [SerializeField] private Image recipeImage; // Р”Р»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ СЂРµС†РµРїС‚Р°
 
-  
+    
+    private void Start()
+    {
+       
+    }
     public void Interact()
     {
         table.SetActive(true);
         Invoke("DisableOutline", 0.2f);
-        Debug.Log("Стол: Подготавливаем ингредиенты!");
+        Debug.Log("РЎС‚РѕР»: РџРѕРґРіРѕС‚Р°РІР»РёРІР°РµРј РёРЅРіСЂРµРґРёРµРЅС‚С‹!");
         UIManager.Instance.ShowPanel(UIManager.PanelType.Workbench);
         recipeImage.gameObject.SetActive(false);
     }
@@ -26,7 +30,7 @@ public class Workbench : MonoBehaviour, IInteractable
 
     void CheckCrafting()
     {
-        // Проверка наличия предметов в слотах
+        // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РїСЂРµРґРјРµС‚РѕРІ РІ СЃР»РѕС‚Р°С…
         if (itemSlots[0].HasItem && itemSlots[1].HasItem && itemSlots[2].HasItem)
         {
             Ingredient ing1 = itemSlots[0].GetIngredient().GetComponent<Ingredient>();
@@ -35,14 +39,18 @@ public class Workbench : MonoBehaviour, IInteractable
 
             if (ing1 != null && ing2 != null && ing3 != null)
             {
-                Debug.Log($"Предметы в слотах: {ing1.itemName}, {ing2.itemName}, {ing3.itemName}");
-                
-                // Проверяем каждый рецепт
+                Debug.Log($"РџСЂРµРґРјРµС‚С‹ РІ СЃР»РѕС‚Р°С…: {ing1.itemName}, {ing2.itemName}, {ing3.itemName}");
+                if (Inventory.Instance.IsInventoryFull(Inventory.Instance.GetMortarsSlots())) // Or the relevant slots array
+                {
+                    Lilith.Instance.Dialog("Your inventory is full.");
+                    return;
+                }
+                // РџСЂРѕРІРµСЂСЏРµРј РєР°Р¶РґС‹Р№ СЂРµС†РµРїС‚
                 foreach (Recipe recipe in recipes)
                 {
                     if (MatchesRecipe(recipe, ing1, ing2, ing3))
                     {
-                        Debug.Log($"Успешный крафт рецепта: {recipe.name}!");
+                        Debug.Log($"РЈСЃРїРµС€РЅС‹Р№ РєСЂР°С„С‚ СЂРµС†РµРїС‚Р°: {recipe.name}!");
                         recipeImage.gameObject.SetActive(true);
                         if (recipe.recipeImage != null)
                         {
@@ -54,22 +62,25 @@ public class Workbench : MonoBehaviour, IInteractable
                     }
                 }
 
-                Debug.Log("Неверная комбинация ингредиентов");
+                Debug.Log("РќРµРІРµСЂРЅР°СЏ РєРѕРјР±РёРЅР°С†РёСЏ РёРЅРіСЂРµРґРёРµРЅС‚РѕРІ");
+                Lilith.Instance.Dialog("Wrong combination of ingredients");
             }
             else
             {
-                Debug.Log("Один или несколько предметов не найдены в слотах");
+                Debug.Log("РћРґРёРЅ РёР»Рё РЅРµСЃРєРѕР»СЊРєРѕ РїСЂРµРґРјРµС‚РѕРІ РЅРµ РЅР°Р№РґРµРЅС‹ РІ СЃР»РѕС‚Р°С…");
+                
             }
         }
         else
         {
-            Debug.Log("Недостаточно ингредиентов");
+            Debug.Log("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РёРЅРіСЂРµРґРёРµРЅС‚РѕРІ");
+            Lilith.Instance.Dialog("It seems like you forgot something");
         }
     }
 
     bool MatchesRecipe(Recipe recipe, Ingredient ing1, Ingredient ing2, Ingredient ing3)
     {
-        // Проверяем, совпадает ли переданный набор ингредиентов с рецептом
+        // РџСЂРѕРІРµСЂСЏРµРј, СЃРѕРІРїР°РґР°РµС‚ Р»Рё РїРµСЂРµРґР°РЅРЅС‹Р№ РЅР°Р±РѕСЂ РёРЅРіСЂРµРґРёРµРЅС‚РѕРІ СЃ СЂРµС†РµРїС‚РѕРј
         return (ing1.itemName == recipe.ingredient1.itemName &&
                 ing2.itemName == recipe.ingredient2.itemName &&
                 ing3.itemName == recipe.ingredient3.itemName);
@@ -77,15 +88,15 @@ public class Workbench : MonoBehaviour, IInteractable
 
     void CraftNewItem(Recipe recipe)
     {
-        // Создаем новый предмет
+        // РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ РїСЂРµРґРјРµС‚
         AudioManager.Instance.PlaySound(AudioManager.Sound.CraftSound);
         CraftedItem<Mortar> newItem = new CraftedItem<Mortar>(recipe.name, recipe.recipeImage);
 
-        // Добавляем новый предмет в инвентарь
+        // Р”РѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂСЊ
         Inventory.Instance.AddMortar(newItem);
-        Inventory.Instance.ShowGrid("mortars");
+       // Inventory.Instance.ShowGrid("mortars");
         GameManager.Instance.AddExperience(10);
-        Debug.Log("Создан новый предмет и добавлен в инвентарь: " + newItem.itemName);
+        Debug.Log("РЎРѕР·РґР°РЅ РЅРѕРІС‹Р№ РїСЂРµРґРјРµС‚ Рё РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: " + newItem.itemName);
     }
     void ClearItemSlots()
     {

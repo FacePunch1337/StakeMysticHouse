@@ -7,10 +7,21 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance { get; private set; }
 
     [SerializeField] private ScrollRect scrollRect;
+
     [SerializeField] private List<Slot> IngredientsSlots;
+    public List<Slot> GetIngredientsSlots() { return IngredientsSlots; }
+
+    public event System.Action<Ingredient> OnIngredientAdd;
+
     [SerializeField] private List<Slot> MortarsSlots;
+    public List<Slot> GetMortarsSlots() { return MortarsSlots; }
+
+    public event System.Action<Mortar> OnMortarAdd;
+
     [SerializeField] private List<Slot> PotionsSlots;
-    [SerializeField] private Slot activitySlot;
+    public List<Slot> GetPotionsSlots() { return PotionsSlots; }
+    public event System.Action<Potion> OnPotionAdd;
+    [SerializeField] private Slot[] activitySlots;
 
     [SerializeField] private GameObject ingredientsGrid;
     [SerializeField] private GameObject mortarsGrid;
@@ -40,6 +51,9 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         LoadInventory();
+
+
+
     }
 
     public void ShowGrid(string name)
@@ -85,8 +99,92 @@ public class Inventory : MonoBehaviour
         scrollRect.content = potionsGrid.GetComponent<RectTransform>();
     }
 
+    public void CheckActivitySlotsBeforeCloseInventory()
+    {
+        foreach (Slot activitySlot in activitySlots)
+        {
+            if (activitySlot.gameObject.transform.childCount > 0)
+            {
+                GameObject item = activitySlot.gameObject.transform.GetChild(0).gameObject;
+                if (item.GetComponent<Ingredient>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in IngredientsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"РќРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}. РќРµС‚ СЃРІРѕР±РѕРґРЅС‹С… СЃР»РѕС‚РѕРІ.");
+                    }
+                }
+                else if (item.GetComponent<Mortar>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in MortarsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"РќРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}. РќРµС‚ СЃРІРѕР±РѕРґРЅС‹С… СЃР»РѕС‚РѕРІ.");
+                    }
+                }
+                else if (item.GetComponent<Potion>())
+                {
+                    bool itemAdded = false;
+                    foreach (Slot inventorySlot in PotionsSlots)
+                    {
+                        if (inventorySlot.transform.childCount == 0)
+                        {
+                            item.transform.SetParent(inventorySlot.transform);
+                            item.transform.localPosition = Vector3.zero;
+                            item.transform.localScale = Vector3.one;
+                            Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}");
+                            SaveInventory();
+                            itemAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!itemAdded)
+                    {
+                        Debug.LogWarning($"РќРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {item}. РќРµС‚ СЃРІРѕР±РѕРґРЅС‹С… СЃР»РѕС‚РѕРІ.");
+                    }
+                }
+            }
+        }
+    }
+
+
     public void AddIngredient(Ingredient ingredient)
     {
+        if (IsInventoryFull(IngredientsSlots))
+        {
+            Debug.Log("РРЅРІРµРЅС‚Р°СЂСЊ РїРѕР»РѕРЅ, РЅРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(ingredient.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -103,16 +201,45 @@ public class Inventory : MonoBehaviour
                 newItem.transform.SetParent(slot.transform);
                 newItem.transform.localPosition = Vector3.zero;
                 newItem.transform.localScale = Vector3.one;
-                Debug.Log($"Предмет добавлен в инвентарь: {ingredient.itemName}");
+                Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {ingredient.itemName}");
                 SaveInventory();
+                OnIngredientAdd?.Invoke(newMortar);
                 return;
             }
         }
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
+    }
+
+
+    public bool HasIngredient(Ingredient targetIngredient)
+    {
+        foreach (Slot slot in IngredientsSlots)
+        {
+            if (slot.transform.childCount != 0)
+            {
+                if(slot.transform.GetChild(0).TryGetComponent<Ingredient>(out Ingredient ingredient))
+                {
+                    if (targetIngredient.itemName == ingredient.itemName)
+                    {
+                        Debug.Log($"Found ingredient in inventory: {targetIngredient.itemName}");
+                        return true;
+                    }
+                }
+                
+            }
+        }
+
+        Debug.Log($"CANT find ingredient in inventory: {targetIngredient.itemName}");
+        return false;
     }
 
     public void AddMortar(CraftedItem<Mortar> craftedItem)
     {
+        if (IsInventoryFull(MortarsSlots))
+        {
+            Debug.Log("РРЅРІРµРЅС‚Р°СЂСЊ РїРѕР»РѕРЅ, РЅРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(craftedItem.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -129,16 +256,47 @@ public class Inventory : MonoBehaviour
                 newItem.transform.SetParent(slot.transform);
                 newItem.transform.localPosition = Vector3.zero;
                 newItem.transform.localScale = Vector3.one;
-                Debug.Log($"Предмет добавлен в инвентарь: {craftedItem.itemName}");
+                Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {craftedItem.itemName}");
                 SaveInventory();
+                OnMortarAdd?.Invoke(newMortar);
                 return;
             }
         }
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
+    }
+
+    public bool HasMortar(Mortar targetMortar)
+    {
+        foreach (Slot slot in MortarsSlots)
+        {
+                Debug.Log("has slot");
+            if (slot.transform.childCount != 0)
+            {
+                Debug.Log("has item");
+                if(slot.transform.GetChild(0).TryGetComponent<Mortar>(out Mortar mortar))
+                {
+                Debug.Log("has mortar");
+                    if (targetMortar.itemName == mortar.itemName)
+                    {
+                        Debug.Log($"Found mortar in inventory: {targetMortar.itemName}");
+                        return true;
+                    }
+                }
+                
+            }
+        }
+
+        Debug.Log($"CANT find mortar in inventory: {targetMortar.itemName}");
+        return false;
     }
 
     public void AddPotion(CraftedItem<Potion> craftedItem)
     {
+        if (IsInventoryFull(PotionsSlots))
+        {
+            Debug.Log("РРЅРІРµРЅС‚Р°СЂСЊ РїРѕР»РѕРЅ, РЅРµ СѓРґР°Р»РѕСЃСЊ РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚");
+            return;
+        }
+
         GameObject newItemObject = new GameObject(craftedItem.itemName);
 
         DragableItem newItem = newItemObject.AddComponent<DragableItem>();
@@ -148,16 +306,6 @@ public class Inventory : MonoBehaviour
         Potion newPotion = newItemObject.AddComponent<Potion>();
         newPotion.itemName = craftedItem.itemName;
 
-        if (activitySlot != null && activitySlot.transform.childCount == 0)
-        {
-            newItem.transform.SetParent(activitySlot.transform);
-            newItem.transform.localPosition = Vector3.zero;
-            newItem.transform.localScale = Vector3.one;
-            Debug.Log($"Предмет добавлен в активный слот: {craftedItem.itemName}");
-            SaveInventory();
-            return;
-        }
-
         foreach (Slot slot in PotionsSlots)
         {
             if (slot.transform.childCount == 0)
@@ -165,22 +313,47 @@ public class Inventory : MonoBehaviour
                 newItem.transform.SetParent(slot.transform);
                 newItem.transform.localPosition = Vector3.zero;
                 newItem.transform.localScale = Vector3.one;
-                Debug.Log($"Предмет добавлен в инвентарь: {craftedItem.itemName}");
-                if(GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() < 100)
+                Debug.Log($"РџСЂРµРґРјРµС‚ РґРѕР±Р°РІР»РµРЅ РІ РёРЅРІРµРЅС‚Р°СЂСЊ: {craftedItem.itemName}");
+                if (GameManager.Instance.GetCurrentLevel() == 1 && GameManager.Instance.GetCurrentExperience() < 100)
                 {
                     TutorialManager.Instance.Next();
                 }
                 SaveInventory();
+                OnPotionAdd?.Invoke(newPotion);
                 return;
             }
         }
+    }
 
-        Debug.Log("Инвентарь полон, не удалось добавить предмет");
+    public bool HasPotion(Potion targetPotion)
+    {
+        foreach (Slot slot in PotionsSlots)
+        {
+            if (slot.transform.childCount != 0)
+            {
+                if(slot.transform.GetChild(0).TryGetComponent<Potion>(out Potion potion))
+                {
+                    if (targetPotion.itemName == potion.itemName)
+                    {
+                        Debug.Log($"Found potion in inventory: {targetPotion.itemName}");
+                        return true;
+                    }
+                }
+                
+            }
+        }
+
+        Debug.Log($"CANT find potion in inventory: {targetPotion.itemName}");
+        return false;
     }
 
     public void SaveInventory()
     {
-        for (int i = 0; i < IngredientsSlots.Count; i++)
+        if (GameManager.Instance.GetCurrentLevel() >= 2)
+        {
+
+        
+            for (int i = 0; i < IngredientsSlots.Count; i++)
         {
             if (IngredientsSlots[i].transform.childCount > 0)
             {
@@ -216,15 +389,16 @@ public class Inventory : MonoBehaviour
             else
             {
                 PlayerPrefs.SetString("Potion_" + i, "");
+                }
             }
+            PlayerPrefs.Save();
         }
 
-        PlayerPrefs.Save();
     }
 
-    private void LoadInventory()
+        private void LoadInventory()
     {
-        Debug.Log("Начало загрузки инвентаря");
+        Debug.Log("РќР°С‡Р°Р»Рѕ Р·Р°РіСЂСѓР·РєРё РёРЅРІРµРЅС‚Р°СЂСЏ");
 
         for (int i = 0; i < IngredientsSlots.Count; i++)
         {
@@ -237,11 +411,11 @@ public class Inventory : MonoBehaviour
                     GameObject newItem = Instantiate(prefab, IngredientsSlots[i].transform);
                     newItem.transform.localPosition = Vector3.zero;
                     newItem.transform.localScale = Vector3.one;
-                    Debug.Log($"Загружен ингредиент: {itemName} в слот {i}");
+                    Debug.Log($"Р—Р°РіСЂСѓР¶РµРЅ РёРЅРіСЂРµРґРёРµРЅС‚: {itemName} РІ СЃР»РѕС‚ {i}");
                 }
                 else
                 {
-                    Debug.LogError($"Префаб {itemName} не найден в Resources/Prefabs/Ingredients!");
+                    Debug.LogError($"РџСЂРµС„Р°Р± {itemName} РЅРµ РЅР°Р№РґРµРЅ РІ Resources/Prefabs/Ingredients!");
                 }
             }
         }
@@ -257,11 +431,11 @@ public class Inventory : MonoBehaviour
                     GameObject newItem = Instantiate(prefab, MortarsSlots[i].transform);
                     newItem.transform.localPosition = Vector3.zero;
                     newItem.transform.localScale = Vector3.one;
-                    Debug.Log($"Загружен ступка: {itemName} в слот {i}");
+                    Debug.Log($"Р—Р°РіСЂСѓР¶РµРЅ СЃС‚СѓРїРєР°: {itemName} РІ СЃР»РѕС‚ {i}");
                 }
                 else
                 {
-                    Debug.LogError($"Префаб {itemName} не найден в Resources/Prefabs!");
+                    Debug.LogError($"РџСЂРµС„Р°Р± {itemName} РЅРµ РЅР°Р№РґРµРЅ РІ Prefabs/Mortars");
                 }
             }
         }
@@ -277,20 +451,30 @@ public class Inventory : MonoBehaviour
                     GameObject newItem = Instantiate(prefab, PotionsSlots[i].transform);
                     newItem.transform.localPosition = Vector3.zero;
                     newItem.transform.localScale = Vector3.one;
-                    Debug.Log($"Загружено зелье: {itemName} в слот {i}");
+                    Debug.Log($"Р—Р°РіСЂСѓР¶РµРЅРѕ Р·РµР»СЊРµ: {itemName} РІ СЃР»РѕС‚ {i}");
                 }
                 else
                 {
-                    Debug.LogError($"Префаб {itemName} не найден в Resources/Prefabs!");
+                    Debug.LogError($"РџСЂРµС„Р°Р± {itemName} РЅРµ РЅР°Р№РґРµРЅ РІ Resources/Prefabs!");
                 }
             }
         }
 
-        // Убедитесь, что UI обновляется после загрузки данных
+        // РЈР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ UI РѕР±РЅРѕРІР»СЏРµС‚СЃСЏ РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РґР°РЅРЅС‹С…
         UIManager.Instance.UpdateUI();
 
-        Debug.Log("Загрузка инвентаря завершена");
+        Debug.Log("Р—Р°РіСЂСѓР·РєР° РёРЅРІРµРЅС‚Р°СЂСЏ Р·Р°РІРµСЂС€РµРЅР°");
     }
 
-
+    public bool IsInventoryFull(List<Slot> slots)
+    {
+        foreach (Slot slot in slots)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                return false; // Found an empty slot, inventory is not full
+            }
+        }
+        return true; // No empty slots found, inventory is full
+    }
 }

@@ -29,6 +29,7 @@ public class DragableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
+       
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -36,11 +37,11 @@ public class DragableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         Debug.Log("OnDrag");
         Vector3 touchPosition = eventData.position;
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(touchPosition);
-
+       
         // Ограничиваем позицию объект видимыми границами камеры
         worldPosition = ClampToCameraBounds(worldPosition);
         transform.position = Vector3.SmoothDamp(transform.position, worldPosition, ref velocity, smoothTime);
-       
+        
     }
 
     public void OnEndDrag(PointerEventData eventData)

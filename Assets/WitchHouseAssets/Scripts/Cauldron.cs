@@ -16,7 +16,12 @@ public class Cauldron : MonoBehaviour, IInteractable
 
     private float rotationProgress = 0f;
     private float progressPerRotation = 1f / 50f;
+    private Lilith lilith;
 
+    private void Start()
+    {
+        lilith = GameManager.Instance.GetComponent<Lilith>();
+    }
     public void Interact()
     {
         cauldron.SetActive(true);
@@ -32,12 +37,26 @@ public class Cauldron : MonoBehaviour, IInteractable
     {
         if (itemSlots[0].HasItem)
         {
-            Mortar mortar = itemSlots[0].GetMortar().GetComponent<Mortar>();
+            Mortar mortar = null;
+            try
+            {
+                mortar = itemSlots[0].GetMortar().GetComponent<Mortar>();
+            }
+            catch
+            {
+                lilith.Dialog($"You can only cook blanks, crafted on a workbench.");
+            }
+
 
             if (mortar != null)
             {
                 Debug.Log($"Предметы в слотах: {mortar.itemName}");
 
+                if (Inventory.Instance.IsInventoryFull(Inventory.Instance.GetPotionsSlots())) // Or the relevant slots array
+                {
+                    lilith.Dialog("Your inventory is full.");
+                    return;
+                }
                 foreach (PotionModel potion in potions)
                 {
                     Debug.Log($"ВАРИМ: {mortar.name}!");
@@ -55,6 +74,10 @@ public class Cauldron : MonoBehaviour, IInteractable
                     }
                 }
             }
+          
+            
+               
+            
         }
     }
 
@@ -88,14 +111,14 @@ public class Cauldron : MonoBehaviour, IInteractable
     void CraftNewItem(PotionModel potion)
     {
         // Создаем новый предмет
-
+     
         AudioManager.Instance.PlaySound(AudioManager.Sound.BrewSound);
         AudioManager.Instance.PlaySound(AudioManager.Sound.CraftSound);
         CraftedItem<Potion> newItem = new CraftedItem<Potion>(potion.name, potion.image);
 
         // Добавляем новый предмет в инвентарь
         Inventory.Instance.AddPotion(newItem);
-        Inventory.Instance.ShowGrid("potions");
+        //Inventory.Instance.ShowGrid("potions");
         GameManager.Instance.AddExperience(20);
 
 
