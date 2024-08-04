@@ -8,7 +8,7 @@
 
 ---
 <p align="center">
-    <img src="https://github.com/FacePunch1337/WitchHouse/blob/DowngradeVersion/Assets/WitchHouseAssets/Sprites/Game/Lilith/Smile2.png"/>
+    <img src="https://github.com/FacePunch1337/WitchHouse/blob/main/Assets/WitchHouseAssets/Sprites/Game/Lilith/Smile2.png"/>
 </p>
  
 ### <p align="center">✨ Make potion game ✨</p>
