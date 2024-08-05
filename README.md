@@ -2,7 +2,7 @@
 
 
 ---
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Kalnia+Glaze&weight=700&size=50&pause=1000&color=C647FF&background=FFFFFF00&center=true&vCenter=true&width=1000&height=100&lines=Witch+House)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Kalnia+Glaze&weight=700&size=50&pause=1000&color=505C69&background=FFFFFF00&center=true&vCenter=true&width=1000&height=100&lines=Stake+Mystic+House)](https://git.io/typing-svg)
 
 
 
